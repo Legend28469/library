@@ -37,7 +37,9 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        Book::create($request->validated());
+        $book = Book::create($request->validated());
+
+        return redirect($book->path());
     }
 
     /**
@@ -72,6 +74,8 @@ class BookController extends Controller
     public function update(Book $book, UpdateBookRequest $request)
     {
         $book->update($request->validated());
+
+        return redirect($book->path());
     }
 
     /**
@@ -80,8 +84,10 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return redirect("/books");
     }
 }
